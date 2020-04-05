@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Cars</title>
+</head>
+<body style="width: 100%;">
+<div th:if="${info} != null">
+    <h2 th:text="${info}" style="align-content: center; text-align: center"></h2>
+</div>
+<div style="float: left; width: 50%; text-align: center;">
+    <table>
+        <thead><h2>Lista samochodów</h2></thead>
+        <tr style="margin: 10px;">
+            <td><b>id</b></td>
+            <td><b>mark</b></td>
+            <td><b>model</b></td>
+            <td><b>color</b></td>
+            <td><b>date of production</b></td>
+        </tr>
+        <tr style="margin: 10px;" th:each="car : ${cars}">
+            <td style="padding: 5px;" th:text="${car.id}"></td>
+            <td style="padding: 5px;" th:text="${car.mark}"></td>
+            <td style="padding: 5px;" th:text="${car.model}"></td>
+            <td style="padding: 5px;" th:text="${car.color}"></td>
+            <td style="padding: 5px;" th:text="${car.dateProduction}"></td>
+        </tr>
+    </table>
+</div>
+
+<div style="float: left; width: 50%; text-align: center;">
+    <h2>Dodaj samochód</h2>
+    <form method="post" th:action="@{/cars/addCar}" th:object="${newCar}">
+        Mark: <input type="text" th:field="*{mark}"/>
+        Model: <input type="text" th:field="*{model}"/>
+        Color: <input type="text" th:field="*{color}"/>
+        Date: <input type="date" th:field="*{dateProduction}"/>
+        <input type="submit" value="Dodaj" />
+    </form>
+    <br>
+    <h2>Usuń samochód</h2>
+    <form method="post" th:action="@{/cars/removeCar}">
+        Id: <input type="text" name="id" th:value="${id}"/>
+        <input type="submit" value="Usuń" />
+    </form>
+    <br>
+    <h2>Samochody wyprodukowane pomiedzy</h2>
+    <form method="post" th:action="@{/cars/findBetweenDates}">
+        Start <input type="date" name="startDate" th:value="${startDate}"/>
+        Koniec <input type="date" name="endDate" th:value="${endDate}"/>
+        <input type="submit" value="Wyszukaj" />
+    </form>
+    <br>
+
+</div>
+
+<div style="clear: both"></div>
+</body>
+</html>
