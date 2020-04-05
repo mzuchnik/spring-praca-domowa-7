@@ -29,10 +29,9 @@ public class CarController {
                            @ModelAttribute("cars") ArrayList<Car> carBetweenDates) {
         if (carBetweenDates.isEmpty()) {
             model.addAttribute("cars", carDao.findAll());
-        } else {
+        }else {
             model.addAttribute("cars", carBetweenDates);
         }
-        System.out.println(carBetweenDates);
         model.addAttribute("info", info);
         model.addAttribute("newCar", new Car());
         model.addAttribute("id", 0);
@@ -67,7 +66,11 @@ public class CarController {
                                    RedirectAttributes ra) {
 
         List<Car> betweenDates = carDao.findBetweenDates(startDate.toLocalDate(), endDate.toLocalDate());
-        ra.addAttribute("info", "Samochody pomiędzy (" + startDate + " : " + endDate + ")");
+
+        String info = "Samochody pomiędzy (" + startDate + " : " + endDate + ")";
+        if (betweenDates.isEmpty())
+            info += "<- Nieznaleziono";
+        ra.addAttribute("info", info);
         ra.addFlashAttribute("cars", betweenDates);
         return "redirect:/cars";
     }
